@@ -17,14 +17,6 @@ db.once('open',()=>{
 app.use(logger('tiny'))
 app.use(express.json())
 
-if(process.env.NODE_ENV ==='production'){
-    app.use(express.static('client/build'))
-
-    app.get('*',(req,res)=>{
-        res.sendfile(path.resolve(__dirname,'client','build','index.html'))
-    })
-}
-
 app.get('/list',async (req,res)=>{
     await battles.find({}).populate({
         path:'GOT Battles'
@@ -69,6 +61,13 @@ app.get('/search',async (req,res)=>{
     }
 })
 
+if(process.env.NODE_ENV ==='production'){
+    app.use(express.static('client/build'))
+
+    app.get('*',(req,res)=>{
+        res.sendfile(path.resolve(__dirname,'client','build','index.html'))
+    })
+} 
 app.listen(port,()=>{
     console.debug(`Server is up at:${port}`)
 })
