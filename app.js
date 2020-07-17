@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 
 const app = express();
 const port = process.env.PORT || 8080
-const mongoURI = process.env.mongoURI || "mongodb+srv://jatin19:jatin1903@cluster0.mwozi.mongodb.net/TestDB?retryWrites=true&w=majority"
+const mongoURI = process.env.MONGODB_URI || "mongodb+srv://jatin19:jatin1903@cluster0.mwozi.mongodb.net/TestDB?retryWrites=true&w=majority"
 
 mongoose.connect(mongoURI,{useNewUrlParser: true, useUnifiedTopology: true}).catch(err=>console.log(err))
 const db = mongoose.connection
@@ -18,10 +18,10 @@ app.use(logger('tiny'))
 app.use(express.json())
 
 if(process.env.NODE_ENV ==='production'){
-    app.use(express.static('Client/build'))
+    app.use(express.static('client/build'))
 
     app.get('*',(req,res)=>{
-        res.sendfile(path.resolve(__dirname,'Client','build','index.html'))
+        res.sendfile(path.resolve(__dirname,'client','build','index.html'))
     })
 }
 
